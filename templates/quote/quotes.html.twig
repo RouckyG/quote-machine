@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quotes{% endblock %}
+{% block stylesheet %}
+
+    .quote {
+    padding : 5px;
+    }
+    .meta {
+    color : darkgray;
+    font-style : italic;
+    }
+{% endblock %}
+{% block body %}
+
+    <h1> Liste des citations</h1>
+
+    {% for quote in quotes %}
+        <ul class="quote">
+    <div class="content">"{{ quote.content }}"</div>
+        <div class="meta"> - {{ quote.meta }}</div>
+        </ul>
+    {% endfor %}
+
+{% endblock %}
