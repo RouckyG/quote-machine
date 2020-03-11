@@ -5,11 +5,12 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class QuoteController extends AbstractController
 {
     /**
-     * @Route("/quote", name="quote")
+     * @Route("/quote/index", name="quote")
      */
     public function index()
     {
@@ -19,13 +20,14 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @Route("/quote/{search}", name="quotes")
+     * @Route("/quote/", name="quotes")
      *
      * @param array $quotes
      * @return Response
      */
-    public function quotes(string $search)
+    public function quotes(Request $request)
     {
+
         $quotes = [
             [
                 "content" => "Sire, Sire ! On en a gros !",
@@ -62,9 +64,42 @@ class QuoteController extends AbstractController
         ];
 
 
+        // récupération du paramètre search
+        $search = $request->query->get('search');
+
+        $result = [];
+
+
+            if ($search)
+            {
+                /*function insert(string $search)
+                {
+
+                }
+                array_filter($quotes, "pop");*/
+
+
+                foreach ($quotes as $quote) {
+
+                    if (stripos($quote["meta"], $search) !== false || stripos($quote["content"], $search) !== false ) {
+
+                        $result [] = $quote;
+                    }
+                }
+
+            }
+            else
+            {
+                $result = $quotes;
+            }
+
 
         return $this->render('quote/quotes.html.twig', [
-            'search' => $search,
+            'quotes' => $result, 'search' => $search
         ]);
+
     }
+
+
+
 }

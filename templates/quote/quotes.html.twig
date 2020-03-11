@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Quotes{% endblock %}
-{% block stylesheet %}
+{% block style %}
 
     .quote {
     padding : 5px;
@@ -15,6 +15,14 @@
 
     <h1> Liste des citations</h1>
 
+    <form method="GET">
+        <label><input type="text" name="search" value={{ search }} ></label>
+        <input type="submit" />
+    </form>
+
+    {% if quotes == [] %}
+    <p> Aucune citation ne correspond à votre recherche.</p>
+    {% endif %}
     {% for quote in quotes %}
         <ul class="quote">
     <div class="content">"{{ quote.content }}"</div>

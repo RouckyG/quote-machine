@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <style>{% block stylesheet %}{% endblock %}</style>
+        <style>{% block style %}{% endblock %}</style>
+        {% block stylesheet %}{% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
