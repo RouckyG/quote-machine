@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\QuoteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,7 @@ class QuoteController extends AbstractController
      */
     public function index()
     {
+
         return $this->render('quote/index.html.twig', [
             'controller_name' => 'QuoteController',
         ]);
@@ -27,7 +29,7 @@ class QuoteController extends AbstractController
      */
     public function quotes(Request $request)
     {
-
+/*
         $quotes = [
             [
                 "content" => "Sire, Sire ! On en a gros !",
@@ -62,7 +64,18 @@ class QuoteController extends AbstractController
                 "meta" => "Tante Polly P"
             ],
         ];
+*/
 
+        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+
+        if (false) {
+            $quotesStore->insert([
+                'content' => 'DUT',
+                'meta' => 'FC',
+            ]);
+        }
+
+        $quotes = $quotesStore->fetch();
 
         // récupération du paramètre search
         $search = $request->query->get('search');
@@ -100,6 +113,35 @@ class QuoteController extends AbstractController
 
     }
 
+    /**
+     * @Route ("/quote/new")
+     */
+    public function new(Request $request)
+    {
+        $quote = [];
+        $form = $this->createForm(QuoteType::class, $quote);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quote = $form->getData();
+            $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+
+            $quotesStore->insert(
+                $quote
+            );
+
+            return $this->redirectToRoute('quotes');
+        }
+
+        return $this->render('quote/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/quotes/{id}/edit", name="quote_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, $id)
+    {
+    }
 
 
 }
