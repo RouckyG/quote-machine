@@ -145,10 +145,29 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @Route("/quotes/{id}/edit", name="quote_edit", methods={"GET", "POST"})
+     * @Route("/quote/edit/{id}", name="quote_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, int $id)
     {
+        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+        $quotes =$quotesStore->where('_id','=',$id)->fetch();
+        $quote = reset($quotes);
+
+        if(!$quotes) {
+            throw $this->createNotFoundException("no quote found for id ".$id);
+        }
+
+        $form = $this->createForm(QuoteType::class, $quote);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quote = $form->getData();
+            $quotesStore->where('_id','=',$id)->update($quote);
+
+            return $this->redirectToRoute('quotes');
+        }
+
+        return $this->render('quote/edit.html.twig', ['form'=> $form->createView()]);
     }
 
 
