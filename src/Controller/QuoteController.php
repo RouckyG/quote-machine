@@ -29,7 +29,11 @@ class QuoteController extends AbstractController
      */
     public function quotes(Request $request)
     {
-/*
+
+        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+
+   if(false)
+  {
         $quotes = [
             [
                 "content" => "Sire, Sire ! On en a gros !",
@@ -64,9 +68,13 @@ class QuoteController extends AbstractController
                 "meta" => "Tante Polly P"
             ],
         ];
-*/
 
-        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+    $quotesStore-> insertMany($quotes);
+}
+
+
+
+
 
         if (false) {
             $quotesStore->insert([
