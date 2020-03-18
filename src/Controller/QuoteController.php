@@ -73,9 +73,6 @@ class QuoteController extends AbstractController
 }
 
 
-
-
-
         if (false) {
             $quotesStore->insert([
                 'content' => 'DUT',
@@ -85,7 +82,6 @@ class QuoteController extends AbstractController
 
         $quotes = $quotesStore->fetch();
 
-        // récupération du paramètre search
         $search = $request->query->get('search');
 
         $result = [];
@@ -122,7 +118,7 @@ class QuoteController extends AbstractController
     }
 
     /**
-     * @Route ("/quote/new")
+     * @Route ("/quote/new", name="quote_new")
      */
     public function new(Request $request)
     {
@@ -172,7 +168,7 @@ class QuoteController extends AbstractController
 
 
     /**
-     * @Route ("quote/delete/{id}")
+     * @Route ("quote/delete/{id}", name="quote_delete", methods={"GET", "POST"})
      */
     public function delete(Request $request, int $id)
     {
