@@ -171,4 +171,30 @@ class QuoteController extends AbstractController
     }
 
 
+    /**
+     * @Route ("quote/delete/{id}")
+     */
+    public function delete(Request $request, int $id)
+    {
+        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+        $quotes =$quotesStore->where('_id','=',$id)->fetch();
+        $quote = reset($quotes);
+
+        if(!$quotes) {
+            throw $this->createNotFoundException("no quote found for id ".$id);
+        }
+
+        $form = $this->createForm(QuoteType::class, $quote);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quotesStore->where('_id','=',$id)->delete();
+
+            return $this->redirectToRoute('quotes');
+        }
+
+        return $this->render('quote/delete.html.twig', ['form'=> $form->createView()]);
+    }
+
+
 }
