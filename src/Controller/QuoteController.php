@@ -150,7 +150,7 @@ class QuoteController extends AbstractController
         $quote = reset($quotes);
 
         if(!$quotes) {
-            throw $this->createNotFoundException("no quote found for id ".$id);
+            throw $this->createNotFoundException("pas de citation pour l'id ".$id);
         }
 
         $form = $this->createForm(QuoteType::class, $quote);
@@ -190,6 +190,20 @@ class QuoteController extends AbstractController
         }
 
         return $this->render('quote/delete.html.twig', ['form'=> $form->createView()]);
+    }
+
+    /**
+     * @Route ("quote/random", name="quote_random")
+     * @return Response
+     * @throws \Exception
+     */
+    public function random()
+    {
+        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
+        $quotes =$quotesStore->fetch();
+        $quote = $quotes[rand(0,count($quotes)-1)];
+
+        return $this->render('quote/random.html.twig', ['quote' => $quote]);
     }
 
 

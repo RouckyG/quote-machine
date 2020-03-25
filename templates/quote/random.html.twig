@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Citations aléatoire
+{% endblock %}
+
+{% block body %}
+
+    <h1> Citations aléatoire </h1>
+
+
+        <ul class="quote">
+            <div class="content">"{{ quote.content }}"</div>
+            <div class="meta"> - {{ quote.meta }}</div>
+        </ul>
+
+{% endblock %}
+
+
+

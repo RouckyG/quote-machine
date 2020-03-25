@@ -13,8 +13,12 @@ class QuoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextType::class)
-            ->add('meta', TextType::class)
+            ->add('content', TextType::class,[
+                'required' => true,
+    ])
+            ->add('meta', TextType::class,[
+                'required' => true,
+            ])
             ->add('submit', SubmitType::class)
             ;
         ;
