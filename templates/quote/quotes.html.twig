@@ -28,8 +28,8 @@
         <ul class="quote">
     <div class="content">"{{ quote.content }}"</div>
         <div class="meta"> - {{ quote.meta }}</div>
-            <a href=" {{ path('quote_edit',{id:quote._id}) }}">Modifier</a>
-            <a href=" {{ path('quote_delete',{id:quote._id}) }}">Supprimer</a>
+            <a href=" {{ path('quote_edit',{id:quote.id}) }}">Modifier</a>
+            <a href=" {{ path('quote_delete',{id:quote.id}) }}">Supprimer</a>
 
         </ul>
     {% endfor %}
