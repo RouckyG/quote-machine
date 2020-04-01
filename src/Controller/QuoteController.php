@@ -100,12 +100,11 @@ class QuoteController extends AbstractController
 
     /**
      * @Route("/quote/edit/{id}", name="quote_edit", methods={"GET", "POST"})
-     * @ParamConverter("quote", class="SensioBlogBundle:Quote")
      */
     public function edit(Request $request, int $id)
     {
-        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
-        $quotes =$quotesStore->where('_id','=',$id)->fetch();
+        $quotes = $this->getDoctrine()->getRepository(Quote::class)->findAll();
+
         $quote = reset($quotes);
 
         if(!$quotes) {
@@ -116,8 +115,11 @@ class QuoteController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $quote = $form->getData();
-            $quotesStore->where('_id','=',$id)->update($quote);
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->persist($quote);
+            $entityManager->flush();
+
 
             return $this->redirectToRoute('quotes');
         }
@@ -129,41 +131,18 @@ class QuoteController extends AbstractController
     /**
      * @Route ("/quote/delete/{id}", name="quote_delete", methods={"GET", "POST"})
      */
-    public function delete(Quote $quote)
-    {
-        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
-        $quotes =$quotesStore->where('_id','=',$id)->fetch();
-        $quote = reset($quotes);
-
-        if(!$quotes) {
-            throw $this->createNotFoundException("no quote found for id ".$id);
-        }
-
-        $form = $this->createForm(QuoteType::class, $quote);
-
-        $form->handleRequest($quote);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($quote);
-            $entityManager->flush();
-
-
-            return $this->redirectToRoute('homePage');
-        }
-
-        return $this->render('quote/delete.html.twig', ['form'=> $form->createView()]);
-    }
-/*
     public function delete(Quote $quote) {
+
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($quote);
         $entityManager->flush();
 
 
-        return $this->redirectToRoute('homePage');
+        return $this->redirectToRoute('quotes');
+
     }
-*/
+
     /**
      * @Route ("quote/random", name="quote_random")
      * @return Response
@@ -171,8 +150,7 @@ class QuoteController extends AbstractController
      */
     public function random()
     {
-        $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
-        $quotes =$quotesStore->fetch();
+        $quotes = $this->getDoctrine()->getRepository(Quote::class)->findAll();
         $quote = $quotes[rand(0,count($quotes)-1)];
 
         return $this->render('quote/random.html.twig', ['quote' => $quote]);
