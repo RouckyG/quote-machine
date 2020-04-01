@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quote;
 use App\Form\QuoteType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,12 +50,11 @@ class QuoteController extends AbstractController
 
 
                 foreach ($quotes as $quote) {
-
-                    if (stripos($quote["meta"], $search) !== false || stripos($quote["content"], $search) !== false ) {
+                    if (stripos($quote->getContent(), $search) !== false || stripos($quote->getMeta(), $search) !== false ) {
 
                         $result [] = $quote;
                     }
-                }
+                }https://slides-symfony-iut.netlify.com/#/3/12
 
             }
             else
@@ -100,6 +100,7 @@ class QuoteController extends AbstractController
 
     /**
      * @Route("/quote/edit/{id}", name="quote_edit", methods={"GET", "POST"})
+     * @ParamConverter("quote", class="SensioBlogBundle:Quote")
      */
     public function edit(Request $request, int $id)
     {
@@ -128,7 +129,7 @@ class QuoteController extends AbstractController
     /**
      * @Route ("/quote/delete/{id}", name="quote_delete", methods={"GET", "POST"})
      */
-    public function delete(Request $request, int $id)
+    public function delete(Quote $quote)
     {
         $quotesStore = \SleekDB\SleekDB::store('quotes', $this->getParameter('kernel.cache_dir') . '/sleekDB');
         $quotes =$quotesStore->where('_id','=',$id)->fetch();
@@ -140,16 +141,29 @@ class QuoteController extends AbstractController
 
         $form = $this->createForm(QuoteType::class, $quote);
 
-        $form->handleRequest($request);
+        $form->handleRequest($quote);
         if ($form->isSubmitted() && $form->isValid()) {
-            $quotesStore->where('_id','=',$id)->delete();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($quote);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('quotes');
+
+            return $this->redirectToRoute('homePage');
         }
 
         return $this->render('quote/delete.html.twig', ['form'=> $form->createView()]);
     }
+/*
+    public function delete(Quote $quote) {
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($quote);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('homePage');
+    }
+*/
     /**
      * @Route ("quote/random", name="quote_random")
      * @return Response
