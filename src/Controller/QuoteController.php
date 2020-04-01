@@ -101,13 +101,11 @@ class QuoteController extends AbstractController
     /**
      * @Route("/quote/edit/{id}", name="quote_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, int $id)
+    public function edit(Request $request, Quote $quote)
     {
-        $quotes = $this->getDoctrine()->getRepository(Quote::class)->findAll();
 
-        $quote = reset($quotes);
 
-        if(!$quotes) {
+        if(!$quote) {
             throw $this->createNotFoundException("pas de citation pour l'id ".$id);
         }
 
