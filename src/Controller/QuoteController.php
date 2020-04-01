@@ -106,7 +106,7 @@ class QuoteController extends AbstractController
 
 
         if(!$quote) {
-            throw $this->createNotFoundException("pas de citation pour l'id ".$id);
+            throw $this->createNotFoundException("pas de citation pour l'id ".$quote->getId());
         }
 
         $form = $this->createForm(QuoteType::class, $quote);
