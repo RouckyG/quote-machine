@@ -28,6 +28,9 @@
         <ul class="quote">
     <div class="content">"{{ quote.content }}"</div>
         <div class="meta"> - {{ quote.meta }}</div>
+            {% if quote.categorie != null %}
+            {{ quote.categorie.nom }}
+            {% endif %}
             <a href=" {{ path('quote_edit',{id:quote.id}) }}">Modifier</a>
             <a href=" {{ path('quote_delete',{id:quote.id}) }}">Supprimer</a>
 

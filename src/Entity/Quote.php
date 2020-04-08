@@ -26,6 +26,12 @@ class Quote
      */
     private $content;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="Quotes")
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    private $categorie;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +57,18 @@ class Quote
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }

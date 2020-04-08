@@ -90,7 +90,7 @@ class QuoteController extends AbstractController
             $newQuote = new Quote();
             $newQuote->setContent($quote["content"]);
             $newQuote->setMeta($quote["meta"]);
-
+            $newQuote->setCategorie($quote['categorie']);
             $entityManager->persist($newQuote);
             $entityManager->flush();
 

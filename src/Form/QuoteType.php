@@ -2,6 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Categorie;
+use App\Entity\Quote;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,6 +23,15 @@ class QuoteType extends AbstractType
             ->add('meta', TextType::class,[
                 'required' => true,
             ])
+            ->add('categorie', EntityType::class, [
+                'required' => true,
+                'class' => Categorie::class,
+                'choice_label' => 'nom',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.nom', 'ASC');
+                },
+                ])
             ->add('submit', SubmitType::class)
             ;
         ;
