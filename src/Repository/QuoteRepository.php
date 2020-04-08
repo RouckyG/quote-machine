@@ -47,4 +47,5 @@ class QuoteRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

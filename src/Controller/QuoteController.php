@@ -33,7 +33,6 @@ class QuoteController extends AbstractController
     public function quotes(Request $request)
     {
 
-        $quotes = $this->getDoctrine()->getRepository(Quote::class)->findAll();
 
         $search = $request->query->get('search');
 
@@ -48,18 +47,23 @@ class QuoteController extends AbstractController
                 }
                 array_filter($quotes, "pop");*/
 
+                echo ('a');
+                $queryBuilder = $this->getDoctrine()
+                    ->getRepository(Quote::class)
+                    ->createQueryBuilder("q");
 
-                foreach ($quotes as $quote) {
-                    if (stripos($quote->getContent(), $search) !== false || stripos($quote->getMeta(), $search) !== false ) {
 
-                        $result [] = $quote;
-                    }
-                }https://slides-symfony-iut.netlify.com/#/3/12
+                $queryBuilder = $queryBuilder->where('q.content like :content')
+                    ->setParameter('content', '%'.$search.'%')
+                    ->orWhere('q.meta like :meta')
+                    ->setParameter('meta','%'.$search.'%');
 
+                $result = $queryBuilder->getQuery()->getResult();
             }
             else
             {
-                $result = $quotes;
+
+                $result = $this->getDoctrine()->getRepository(Quote::class)->findAll();
             }
 
 

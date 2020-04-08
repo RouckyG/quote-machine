@@ -53,7 +53,7 @@ class QuoteFixtures extends Fixture
         for ($i=0; $i< count($quotes); $i++){
             $quote = new Quote();
             $quote->setContent($quotes[$i]['content']);
-            $quote->setContent($quotes[$i]['meta']);
+            $quote->setMeta($quotes[$i]['meta']);
             $manager->persist($quote);
         }
 
