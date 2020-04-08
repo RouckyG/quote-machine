@@ -38,7 +38,9 @@ class QuoteController extends AbstractController
 
         $result = [];
 
-
+        $queryBuilder = $this->getDoctrine()
+            ->getRepository(Quote::class)
+            ->createQueryBuilder("q");
             if ($search)
             {
                 /*function insert(string $search)
@@ -47,9 +49,7 @@ class QuoteController extends AbstractController
                 }
                 array_filter($quotes, "pop");*/
 
-                $queryBuilder = $this->getDoctrine()
-                    ->getRepository(Quote::class)
-                    ->createQueryBuilder("q");
+
 
 
                 $queryBuilder = $queryBuilder->where('q.content like :content')
@@ -57,12 +57,11 @@ class QuoteController extends AbstractController
                     ->orWhere('q.meta like :meta')
                     ->setParameter('meta','%'.$search.'%');
 
-                $result = $queryBuilder->getQuery()->getResult();
+
             }
-            else
-            {
-                $result = $this->getDoctrine()->getRepository(Quote::class)->findAll();
-            }
+
+        $result = $queryBuilder->getQuery()->getResult();
+
 
 
         return $this->render('quote/quotes.html.twig', [
