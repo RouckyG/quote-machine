@@ -24,7 +24,7 @@ class QuoteType extends AbstractType
                 'required' => true,
             ])
             ->add('categorie', EntityType::class, [
-                'required' => true,
+                'required' => false,
                 'class' => Categorie::class,
                 'choice_label' => 'nom',
                 'query_builder' => function (EntityRepository $er) {
