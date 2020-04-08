@@ -47,7 +47,6 @@ class QuoteController extends AbstractController
                 }
                 array_filter($quotes, "pop");*/
 
-                echo ('a');
                 $queryBuilder = $this->getDoctrine()
                     ->getRepository(Quote::class)
                     ->createQueryBuilder("q");
@@ -62,7 +61,6 @@ class QuoteController extends AbstractController
             }
             else
             {
-
                 $result = $this->getDoctrine()->getRepository(Quote::class)->findAll();
             }
 
