@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategorieRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
-class Categorie
+class Category
 {
     /**
      * @ORM\Id()
@@ -24,7 +24,7 @@ class Categorie
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Quote", mappedBy="categorie")
+     * @ORM\OneToMany(targetEntity="App\Entity\Quote", mappedBy="category")
      */
     private $Quotes;
 
@@ -62,7 +62,7 @@ class Categorie
     {
         if (!$this->Quotes->contains($quote)) {
             $this->Quotes[] = $quote;
-            $quote->setCategorie($this);
+            $quote->setCategory($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Categorie
         if ($this->Quotes->contains($quote)) {
             $this->Quotes->removeElement($quote);
             // set the owning side to null (unless already changed)
-            if ($quote->getCategorie() === $this) {
-                $quote->setCategorie(null);
+            if ($quote->getCategory() === $this) {
+                $quote->setCategory(null);
             }
         }
 

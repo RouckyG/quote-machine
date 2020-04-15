@@ -65,7 +65,7 @@ class QuoteFixtures extends Fixture implements DependentFixtureInterface
             $quote = new Quote();
             $quote->setContent($quotes[$i]['content']);
             $quote->setMeta($quotes[$i]['meta']);
-            $quote->setCategorie($this->getReference($quotes[$i]['reference']));
+            $quote->setCategory($this->getReference($quotes[$i]['reference']));
             $manager->persist($quote);
         }
 

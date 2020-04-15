@@ -22,9 +22,9 @@ final class Version20200408080539 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE categorie (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE quote ADD categorie_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE quote ADD CONSTRAINT FK_6B71CBF4BCF5E72D FOREIGN KEY (categorie_id) REFERENCES categorie (id) ON DELETE SET NULL');
+        $this->addSql('ALTER TABLE quote ADD CONSTRAINT FK_6B71CBF4BCF5E72D FOREIGN KEY (categorie_id) REFERENCES category (id) ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_6B71CBF4BCF5E72D ON quote (categorie_id)');
     }
 
@@ -34,7 +34,7 @@ final class Version20200408080539 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE quote DROP FOREIGN KEY FK_6B71CBF4BCF5E72D');
-        $this->addSql('DROP TABLE categorie');
+        $this->addSql('DROP TABLE category');
         $this->addSql('DROP INDEX IDX_6B71CBF4BCF5E72D ON quote');
         $this->addSql('ALTER TABLE quote DROP categorie_id');
     }

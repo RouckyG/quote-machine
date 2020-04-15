@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Categorie;
+use App\Entity\Category;
 use App\Entity\Quote;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,9 +23,9 @@ class QuoteType extends AbstractType
             ->add('meta', TextType::class,[
                 'required' => true,
             ])
-            ->add('categorie', EntityType::class, [
+            ->add('category', EntityType::class, [
                 'required' => false,
-                'class' => Categorie::class,
+                'class' => Category::class,
                 'choice_label' => 'nom',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('a')

@@ -14,7 +14,7 @@
 {% block body %}
     <a href=" {{ path('quote_new') }}">Ajouter une citation</a>
     <a href=" {{ path('quote_random') }}">Citation aléatoire</a>
-    <a href="{{  path('categorie_index') }}">Vers les categories</a>
+    <a href="{{  path('category_index') }}">Vers les categories</a>
     <h1> Liste des citations</h1>
 
     <form method="GET">
@@ -29,8 +29,8 @@
         <ul class="quote">
     <div class="content">"{{ quote.content }}"</div>
         <div class="meta"> - {{ quote.meta }}</div>
-            {% if quote.categorie != null %}
-            {{ quote.categorie.nom }}
+            {% if quote.category != null %}
+            {{ quote.category.nom }}
             {% endif %}
             <a href=" {{ path('quote_edit',{id:quote.id}) }}">Modifier</a>
             <a href=" {{ path('quote_delete',{id:quote.id}) }}">Supprimer</a>

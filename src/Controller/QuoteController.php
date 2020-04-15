@@ -36,8 +36,6 @@ class QuoteController extends AbstractController
 
         $search = $request->query->get('search');
 
-        $result = [];
-
         $queryBuilder = $this->getDoctrine()
             ->getRepository(Quote::class)
             ->createQueryBuilder("q");
@@ -89,7 +87,7 @@ class QuoteController extends AbstractController
             $newQuote = new Quote();
             $newQuote->setContent($quote["content"]);
             $newQuote->setMeta($quote["meta"]);
-            $newQuote->setCategorie($quote['categorie']);
+            $newQuote->setCategory($quote['category']);
             $entityManager->persist($newQuote);
             $entityManager->flush();
 

@@ -27,10 +27,10 @@ class Quote
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="Quotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="Quotes")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
-    private $categorie;
+    private $category;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class Quote
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function getCategory(): ?Category
     {
-        return $this->categorie;
+        return $this->category;
     }
 
-    public function setCategorie(?Categorie $categorie): self
+    public function setCategory(?Category $category): self
     {
-        $this->categorie = $categorie;
+        $this->category = $category;
 
         return $this;
     }
