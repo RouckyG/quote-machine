@@ -2,25 +2,38 @@
 
 {% block title %}Quotes{% endblock %}
 {% block style %}
-
+<style>
     .quote {
-    padding : 5px;
+        padding : 5px;
     }
     .meta {
-    color : darkgray;
-    font-style : italic;
+        color : darkgray;
+        font-style : italic;
     }
+    .header {
+        display : flex;
+        justify-content: space-between;
+        flex-flow: row;
+    }
+</style>
 {% endblock %}
 {% block body %}
-    <a href=" {{ path('quote_new') }}">Ajouter une citation</a>
-    <a href=" {{ path('quote_random') }}">Citation aléatoire</a>
-    <a href="{{  path('category_index') }}">Vers les categories</a>
+    <div class="header">
+        <div>
+            <a href=" {{ path('quote_new') }}">Ajouter une citation</a>
+            <a href=" {{ path('quote_random') }}">Citation aléatoire</a>
+            <a href="{{  path('category_index') }}">Vers les categories</a>
+        </div>
+        <div class="search">
+            <form method="GET">
+                <label>recherche : <input type="text" name="search" value={{ search }} ></label>
+                <input type="submit" />
+            </form>
+        </div>
+    </div>
     <h1> Liste des citations</h1>
 
-    <form method="GET">
-        <label><input type="text" name="search" value={{ search }} ></label>
-        <input type="submit" />
-    </form>
+
 
     {% if quotes == [] %}
     <p> Aucune citation ne correspond à votre recherche.</p>
