@@ -1,0 +1,15 @@
+parameters:
+    tasks:
+        phpcsfixer2: null
+        git_blacklist:
+            keywords:
+                - "die("
+                - "var_dump("
+                - 'dump('
+            whitelist_patterns: []
+            triggered_by: ['php']
+            regexp_type: G
+    composer:
+        no_check_all: true
+        no_check_publish: true
+        phpunit: ~
