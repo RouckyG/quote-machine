@@ -70,7 +70,17 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "db-validate": "bin/console doctrine:schema:validate",
+        "db": {
+            "db-create": "bin/console doctrine:database:create",
+            "db-migrate": "bin/console doctrine:migration:migrate",
+            "db-fixtures-load": "bin/console doctrine:fixtures:load"
+        },
+        "db-replace" : {
+            "db-drop": "bin/console doctrine:database:drop --force",
+            "db" : "@db"
+        }
     },
     "conflict": {
         "symfony/symfony": "*"

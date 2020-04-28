@@ -34,6 +34,11 @@ Chargement des fixtures :
 $ php bin/console doctrine:fixtures:load
 ```
 
+pour installer la base de donnée avec migration et fixtures :
+
+```shell
+$ composer run db
+```
 ## Développement
 
 Lancement du serveur de développement
